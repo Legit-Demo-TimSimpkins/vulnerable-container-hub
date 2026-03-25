@@ -34,6 +34,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/vulnerable-container-hub:latest
-          labels: |
-            org.opencontainers.image.source=${{ github.repository }}
+          tags: ${{ toLower(format('ghcr.io/{0}/vulnerable-container-hub:latest', github.repository_owner)) }}
