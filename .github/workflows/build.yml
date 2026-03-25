@@ -34,4 +34,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ toLower(format('ghcr.io/{0}/vulnerable-container-hub:latest', github.repository_owner)) }}
+          tags: ${{ lower(format('ghcr.io/{0}/vulnerable-container-hub:latest', github.repository_owner)) }}
