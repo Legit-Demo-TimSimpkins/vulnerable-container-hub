@@ -21,10 +21,9 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # STEP 1: Lowercase the organization name and repository owner
+      # 1. Lowercase the owner name to avoid "repository name must be lowercase" error
       - name: Prepare Lowercase Image Name
         run: |
-          # Converts the repository owner (org) to lowercase
           OWNER_LOWER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           echo "IMAGE_TAG=ghcr.io/${OWNER_LOWER}/vulnerable-container-hub:latest" >> $GITHUB_ENV
 
@@ -35,11 +34,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # STEP 2: Use the environment variable created above
+      # 2. Build and push, explicitly pointing to the Dockerfile
       - name: Build and push image
         uses: docker/build-push-action@v5
         with:
+          # context: . means look in the root of the repo
           context: .
+          # file: ./Dockerfile points exactly to your filename
           file: ./Dockerfile
           push: true
           tags: ${{ env.IMAGE_TAG }}
